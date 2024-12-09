@@ -1,0 +1,57 @@
+services:
+  app:
+    image: sonarqube:community
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik
+        - traefik.http.routers.sonarqube.rule=Host(`sonarqube.singu.dev`)
+        - traefik.http.routers.sonarqube.entrypoints=websecure
+        - traefik.http.routers.sonarqube.tls=true
+        - traefik.http.services.sonarqube-service.loadbalancer.server.scheme=http
+        - traefik.http.services.sonarqube-service.loadbalancer.server.port=9000
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonarqube
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+    volumes:
+      - data:/opt/sonarqube/data
+      - logs:/opt/sonarqube/logs
+      - extensions:/opt/sonarqube/extensions
+    networks:
+      - traefik
+      - sonarqube
+
+  db:
+    image: postgres:17.2
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=false
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+      POSTGRES_DB: sonarqube
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - sonarqube
+
+networks:
+  traefik:
+    name: traefik
+    external: true
+  sonarqube:
+    name: sonarqube
+    driver: overlay
+
+volumes:
+  data:
+  logs:
+  extensions:
+  postgres_data:

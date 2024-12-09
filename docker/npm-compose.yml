@@ -1,0 +1,52 @@
+services:
+  app:
+    image: "jc21/nginx-proxy-manager:latest"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "80:80"
+      - "443:443"
+      - "81:81"
+    environment:
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "npm"
+      DB_MYSQL_PASSWORD: "npm"
+      DB_MYSQL_NAME: "npm"
+      DISABLE_IPV6: "true"
+    volumes:
+      - data:/data
+      - letsencrypt:/etc/letsencrypt
+    depends_on:
+      - db
+    networks:
+      - npm
+
+  db:
+    image: "jc21/mariadb-aria:latest"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: "npm"
+      MYSQL_DATABASE: "npm"
+      MYSQL_USER: "npm"
+      MYSQL_PASSWORD: "npm"
+      MARIADB_AUTO_UPGRADE: "1"
+    volumes:
+      - mysql:/var/lib/mysql
+    networks:
+      - npm
+
+networks:
+  npm:
+    name: npm
+    driver: overlay
+
+volumes:
+  data:
+  letsencrypt:
+  mysql:

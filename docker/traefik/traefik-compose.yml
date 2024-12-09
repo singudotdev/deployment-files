@@ -1,0 +1,46 @@
+services:
+  app:
+    image: traefik:v3.2
+    ports:
+      - 80:80
+      - 443:443
+    container_name: traefik
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - "traefik.http.middlewares.admin-auth.basicauth.users=admin:$$2y$$05$$stfJ9rdbKCrbweLKj3zeHOvS0MvOEXtmw3FBE8t5gk.aDrFY6h1A2"
+      - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true
+      - traefik.http.routers.traefik-http.rule=Host(`traefik.singu.dev`)
+      - traefik.http.routers.traefik-http.entrypoints=webs
+      - traefik.http.routers.traefik-http.middlewares=https-redirect
+      - traefik.http.routers.traefik-https.rule=Host(`traefik.singu.dev`)
+      - traefik.http.routers.traefik-https.entrypoints=websecure
+      - traefik.http.routers.traefik-https.tls=true
+      - traefik.http.routers.traefik-https.service=api@internal
+      - traefik.http.routers.traefik-https.middlewares=admin-auth
+      - traefik.http.services.traefik-service.loadbalancer.server.port=8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /home/singu/certs:/certs:ro
+      - /home/singu/docker/traefik/config.yml:/traefik-config/config.yml:ro
+    command:
+      - --providers.docker
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.endpoint=unix:///var/run/docker.sock
+      - --serverstransport.insecureskipverify
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --providers.file.filename=/traefik-config/config.yml
+      - --accesslog
+      #- --metrics.prometheus
+      #- --tracing=true
+      - --log
+      - --log.level=DEBUG
+      - --api
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true

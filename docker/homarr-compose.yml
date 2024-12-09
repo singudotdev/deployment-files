@@ -1,0 +1,34 @@
+services:
+  app:
+    image: ghcr.io/ajnart/homarr:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik
+        - traefik.http.routers.homarr.rule=Host(`home.singu.dev`)
+        - traefik.http.routers.homarr.entrypoints=websecure
+        - traefik.http.routers.homarr.tls=true
+        - traefik.http.services.homarr-service.loadbalancer.server.scheme=https
+        - traefik.http.services.homarr-service.loadbalancer.server.port=7575
+    volumes:
+      - config:/app/data/configs
+      - icons:/app/public/icons
+      - data:/data
+    networks:
+      - traefik
+
+volumes:
+  config:
+    name: config
+  icons:
+    name: icons
+  data:
+    name: data
+
+networks:
+  traefik:
+    name: traefik
+    external: true

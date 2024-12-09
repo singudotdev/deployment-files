@@ -1,0 +1,28 @@
+# keytool -importcert -file cert.pem  -keystore /opt/java/openjdk/lib/security/cacerts
+
+services:
+  agent-1:
+    image: jetbrains/teamcity-agent:2024.12-linux-sudo
+    container_name: teamcity-docker-agent-1
+    environment:
+      SERVER_URL: "https://teamcity.singu.dev"
+      AGENT_NAME: "Docker Agent 1"
+      DOCKER_IN_DOCKER: start
+    volumes:
+      - "agent_1_config:/data/teamcity_agent/conf"
+      - "docker_volumes:/var/lib/docker"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - /home/singu/certs:/certs:ro
+    privileged: true
+    networks:
+      - teamcity
+
+volumes:
+  agent_1_config:
+    driver: local
+  docker_volumes:
+    driver: local
+
+networks:
+  teamcity:
+    name: teamcity

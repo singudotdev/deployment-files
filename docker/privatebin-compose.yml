@@ -1,0 +1,29 @@
+services:
+  app:
+    image: privatebin/nginx-fpm-alpine
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik
+        - traefik.http.routers.privatebin.rule=Host(`paste.singu.dev`)
+        - traefik.http.routers.privatebin.entrypoints=websecure
+        - traefik.http.routers.privatebin.tls=true
+        - traefik.http.services.privatebin-service.loadbalancer.server.scheme=https
+        - traefik.http.services.privatebin-service.loadbalancer.server.port=8080
+    read_only: true
+    volumes:
+      - data:/srv/data
+    networks:
+      - traefik
+
+volumes:
+  data:
+    driver: local
+
+networks:
+  traefik:
+    name: traefik
+    external: true

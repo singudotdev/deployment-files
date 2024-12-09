@@ -1,0 +1,54 @@
+services:
+  server:
+    image: jetbrains/teamcity-server:2024.12-linux
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik
+        - traefik.http.routers.teamcity.rule=Host(`teamcity.singu.dev`)
+        - traefik.http.routers.teamcity.entrypoints=websecure
+        - traefik.http.routers.teamcity.tls=true
+        - traefik.http.services.teamcity-service.loadbalancer.server.scheme=http
+        - traefik.http.services.teamcity-service.loadbalancer.server.port=8111
+    volumes:
+      - "data:/data/teamcity_server/datadir"
+      - "logs:/opt/teamcity/logs"
+    networks:
+      - teamcity
+      - traefik
+
+  postgres:
+    image: postgres:17.0-bullseye
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=false
+    environment:
+      POSTGRES_DB: "teamcity"
+      POSTGRES_USER: "teamcity"
+      POSTGRES_PASSWORD: "teamcity"
+    volumes:
+      - "postgres:/var/lib/postgresql/data"
+    networks:
+      - teamcity
+
+volumes:
+  data:
+    driver: local
+  logs:
+    driver: local
+  postgres:
+    driver: local
+
+networks:
+  traefik:
+    name: traefik
+    external: true
+  teamcity:
+    name: teamcity
+    driver: overlay

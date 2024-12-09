@@ -1,0 +1,22 @@
+services:
+  app:
+    image: registry.singu.dev/web/singudotdev:main
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik
+        - traefik.http.routers.web-singu.rule=Host(`singu.dev`)
+        - traefik.http.routers.web-singu.entrypoints=websecure
+        - traefik.http.routers.web-singu.tls=true
+        - traefik.http.services.web-singu-service.loadbalancer.server.scheme=https
+        - traefik.http.services.web-singu-service.loadbalancer.server.port=80
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    name: traefik
+    external: true

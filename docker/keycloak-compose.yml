@@ -1,0 +1,61 @@
+services:
+  postgres:
+    image: postgres:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+    networks:
+      - keycloak
+
+  app:
+    image: keycloak/keycloak:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: keycloak
+      PROXY_ADDRESS_FORWARDING: "true"
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
+      KC_HTTPS_CERTIFICATE_FILE: /etc/x509/https/tls.crt
+      KC_HTTPS_CERTIFICATE_KEY_FILE: /etc/x509/https/tls.key
+      KC_HOSTNAME: keycloak.singu.dev
+      KC_PROXY_HEADERS: forwarded
+    volumes:
+      - /root/certs/singu.dev.pem:/etc/x509/https/tls.crt
+      - /root/certs/singu.dev.key:/etc/x509/https/tls.key
+    ports:
+      - 8081:8080
+      - 8443:8443
+    depends_on:
+      - postgres
+    command:
+      - start
+    networks:
+      - keycloak
+      - npm
+
+networks:
+  keycloak:
+    name: keycloak
+    driver: overlay
+  npm:
+    name: npm
+    external: true
+
+volumes:
+  postgres:
+    driver: local
