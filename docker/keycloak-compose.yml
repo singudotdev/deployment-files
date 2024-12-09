@@ -5,6 +5,8 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
+      labels:
+        - traefik.enable=false
     volumes:
       - postgres:/var/lib/postgresql/data
     environment:
@@ -20,6 +22,14 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik
+        - traefik.http.routers.keycloak.rule=Host(`keycloak.singu.dev`)
+        - traefik.http.routers.keycloak.entrypoints=websecure
+        - traefik.http.routers.keycloak.tls=true
+        - traefik.http.services.keycloak-service.loadbalancer.server.scheme=https
+        - traefik.http.services.keycloak-service.loadbalancer.server.port=8443
     environment:
       DB_VENDOR: postgres
       DB_ADDR: postgres
@@ -35,25 +45,22 @@ services:
       KC_HOSTNAME: keycloak.singu.dev
       KC_PROXY_HEADERS: forwarded
     volumes:
-      - /root/certs/singu.dev.pem:/etc/x509/https/tls.crt
-      - /root/certs/singu.dev.key:/etc/x509/https/tls.key
-    ports:
-      - 8081:8080
-      - 8443:8443
+      - /home/singu/certs/cert.pem:/etc/x509/https/tls.crt
+      - /home/singu/certs/cert.key:/etc/x509/https/tls.key
     depends_on:
       - postgres
     command:
       - start
     networks:
       - keycloak
-      - npm
+      - traefik
 
 networks:
   keycloak:
     name: keycloak
     driver: overlay
-  npm:
-    name: npm
+  traefik:
+    name: traefik
     external: true
 
 volumes:
