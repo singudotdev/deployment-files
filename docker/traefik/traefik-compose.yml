@@ -12,7 +12,7 @@ services:
       - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
       - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true
       - traefik.http.routers.traefik-http.rule=Host(`traefik.singu.dev`)
-      - traefik.http.routers.traefik-http.entrypoints=webs
+      - traefik.http.routers.traefik-http.entrypoints=web
       - traefik.http.routers.traefik-http.middlewares=https-redirect
       - traefik.http.routers.traefik-https.rule=Host(`traefik.singu.dev`)
       - traefik.http.routers.traefik-https.entrypoints=websecure
@@ -43,4 +43,5 @@ services:
 
 networks:
   traefik:
-    external: true
+    name: traefik
+    driver: bridge
