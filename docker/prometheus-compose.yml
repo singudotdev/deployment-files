@@ -1,0 +1,20 @@
+services:
+  prometheus:
+    image: bitnami/prometheus:3.0.1
+    container_name: prometheus
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.prometheus.rule=Host(`prometheus.singu.dev`)
+      - traefik.http.routers.prometheus.entrypoints=websecure
+      - traefik.http.routers.prometheus.tls=true
+      - traefik.http.services.prometheus-service.loadbalancer.server.scheme=http
+      - traefik.http.services.prometheus-service.loadbalancer.server.port=9090
+    restart: on-failure
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    name: traefik
+    external: true
