@@ -11,7 +11,7 @@ services:
         - traefik.http.routers.web-singu.rule=Host(`singu.dev`)
         - traefik.http.routers.web-singu.entrypoints=websecure
         - traefik.http.routers.web-singu.tls=true
-        - traefik.http.services.web-singu-service.loadbalancer.server.scheme=https
+        - traefik.http.services.web-singu-service.loadbalancer.server.scheme=http
         - traefik.http.services.web-singu-service.loadbalancer.server.port=80
     networks:
       - traefik
