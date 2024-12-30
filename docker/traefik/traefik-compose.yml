@@ -5,6 +5,7 @@ services:
       - 80:80
       - 443:443
     container_name: traefik
+    restart: always
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik
