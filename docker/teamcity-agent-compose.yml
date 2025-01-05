@@ -1,4 +1,4 @@
-# keytool -importcert -file cert.pem  -keystore /opt/java/openjdk/lib/security/cacerts
+# /opt/java/openjdk/bin/keytool -importcert -file /certs/cert.pem  -keystore /opt/java/openjdk/lib/security/cacerts
 
 services:
   agent-1:
@@ -9,7 +9,7 @@ services:
       AGENT_NAME: "Docker Agent 1"
       DOCKER_IN_DOCKER: start
     volumes:
-      - "agent_1_config:/data/teamcity_agent/conf"
+      - "config:/data/teamcity_agent/conf"
       - "docker_volumes:/var/lib/docker"
       - "/var/run/docker.sock:/var/run/docker.sock"
       - /home/singu/certs:/certs:ro
