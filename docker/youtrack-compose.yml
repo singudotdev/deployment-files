@@ -1,0 +1,33 @@
+services:
+  app:
+    image: jetbrains/youtrack:2024.3.55417
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik
+        - traefik.http.routers.web-singu.rule=Host(`track.singu.dev`)
+        - traefik.http.routers.web-singu.entrypoints=websecure
+        - traefik.http.routers.web-singu.tls=true
+        - traefik.http.services.web-singu-service.loadbalancer.server.scheme=http
+        - traefik.http.services.web-singu-service.loadbalancer.server.port=8080
+    volumes:
+      - data:/opt/youtrack/data
+      - config:/opt/youtrack/conf
+      - logs:/opt/youtrack/logs
+      - backups:/opt/youtrack/backups
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    name: traefik
+    external: true
+
+volumes:
+  data:
+  config:
+  logs:
+  backups:
