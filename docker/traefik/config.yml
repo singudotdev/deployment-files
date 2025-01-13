@@ -6,3 +6,17 @@ tls:
 global:
   checkNewVersion: false
   sendAnonymousUsage: false
+
+http:
+  routers:
+    test:
+      rule: "Host(`test.singu.dev`)"
+      service: test-service
+      tls: true
+      entryPoints: websecure
+
+  services:
+    test-service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.2.233:8888"
