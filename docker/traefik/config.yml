@@ -9,14 +9,14 @@ global:
 
 http:
   routers:
-    route:
+    router:
       rule: "Host(`subdomain.singu.dev`)"
-      service: route-service
+      service: router-service
       tls: true
       entryPoints: websecure
 
   services:
-    route-service:
+    router-service:
       loadBalancer:
         servers:
           - url: "http://192.168.1.123:1337"
