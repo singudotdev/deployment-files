@@ -9,14 +9,14 @@ global:
 
 http:
   routers:
-    test:
-      rule: "Host(`test.singu.dev`)"
+    route:
+      rule: "Host(`subdomain.singu.dev`)"
       service: test-service
       tls: true
       entryPoints: websecure
 
   services:
-    test-service:
+    route-service:
       loadBalancer:
         servers:
-          - url: "http://192.168.2.233:8888"
+          - url: "http://192.168.1.123:1337"
