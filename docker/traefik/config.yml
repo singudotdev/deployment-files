@@ -11,7 +11,7 @@ http:
   routers:
     route:
       rule: "Host(`subdomain.singu.dev`)"
-      service: test-service
+      service: route-service
       tls: true
       entryPoints: websecure
 
