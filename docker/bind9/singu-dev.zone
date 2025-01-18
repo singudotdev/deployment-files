@@ -13,4 +13,6 @@ $ORIGIN singu.dev.           ; Default zone
 
 ns1             IN  A       <dns-server-ip>     ; IP address for ns1.singu.dev
 
+@               IN  A       <proxy-server-ip>   ; A record for singu.dev
+
 *               IN  A       <proxy-server-ip>   ; Wildcard A record for all subdomains
