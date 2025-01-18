@@ -1,0 +1,22 @@
+services:
+  dns:
+    image: ubuntu/bind9:latest
+    container_name: bind9
+    restart: unless-stopped
+    environment:
+      - TZ=Spain/Madrid
+      - BIND9_USER=root
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    volumes:
+      - ./config:/etc/bind
+      - ./cache:/var/cache/bind
+      - ./records:/var/lib/bind
+    networks:
+      - bind9
+
+networks:
+  bind9:
+    name: bind9
+    driver: bridge

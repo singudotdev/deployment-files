@@ -1,0 +1,16 @@
+$TTL 2d                      ; Default Time To Live
+$ORIGIN singu.dev.           ; Default zone
+
+@               IN  SOA     ns1.singu.dev. contact.singu.dev. (
+                    2025011700      ; Serial
+                    12h             ; Refresh
+                    15m             ; Retry
+                    3w              ; Expire
+                    2h              ; Minimum TTL
+                )
+
+                IN  NS      ns1.singu.dev.      ; Nameserver declaration
+
+ns1             IN  A       <dns-server-ip>     ; IP address for ns1.singu.dev
+
+*               IN  A       <proxy-server-ip>   ; Wildcard A record for all subdomains
