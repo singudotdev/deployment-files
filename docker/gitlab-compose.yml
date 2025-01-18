@@ -16,7 +16,7 @@ services:
         condition: on-failure
       labels:
         - traefik.enable=true
-        - traefik.docker.network=traefik
+        - traefik.swarm.network=traefik
         - traefik.http.routers.gitlab.rule=Host(`gitlab.singu.dev`)
         - traefik.http.routers.gitlab.entrypoints=websecure
         - traefik.http.routers.gitlab.tls=true

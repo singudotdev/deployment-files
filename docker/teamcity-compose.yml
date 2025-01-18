@@ -7,7 +7,7 @@ services:
         condition: on-failure
       labels:
         - traefik.enable=true
-        - traefik.docker.network=traefik
+        - traefik.swarm.network=traefik
         - traefik.http.routers.teamcity.rule=Host(`teamcity.singu.dev`)
         - traefik.http.routers.teamcity.entrypoints=websecure
         - traefik.http.routers.teamcity.tls=true

@@ -7,7 +7,7 @@ services:
         condition: on-failure
       labels:
         - traefik.enable=true
-        - traefik.docker.network=traefik
+        - traefik.swarm.network=traefik
         - traefik.http.routers.web-singu.rule=Host(`track.singu.dev`)
         - traefik.http.routers.web-singu.entrypoints=websecure
         - traefik.http.routers.web-singu.tls=true

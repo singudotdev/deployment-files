@@ -7,7 +7,7 @@ services:
         condition: on-failure
       labels:
         - traefik.enable=true
-        - traefik.docker.network=traefik
+        - traefik.swarm.network=traefik
         - traefik.http.routers.sonarqube.rule=Host(`sonarqube.singu.dev`)
         - traefik.http.routers.sonarqube.entrypoints=websecure
         - traefik.http.routers.sonarqube.tls=true
