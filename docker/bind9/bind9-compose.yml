@@ -1,3 +1,5 @@
+# chown root:root /run/named/ -R
+
 services:
   dns:
     image: ubuntu/bind9:latest
