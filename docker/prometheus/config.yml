@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "prometheus_agent"
+    static_configs:
+      - targets: ["agent_host:12345"]
