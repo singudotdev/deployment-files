@@ -18,7 +18,7 @@ services:
       - teamcity
 
 volumes:
-  agent_1_config:
+  config_1:
     driver: local
   docker_volumes:
     driver: local

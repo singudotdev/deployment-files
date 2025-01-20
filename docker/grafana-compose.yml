@@ -1,16 +1,18 @@
 services:
-  grafana:
+  app:
     image: grafana/grafana:11.4.0
-    container_name: grafana
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=traefik
-      - traefik.http.routers.grafana.rule=Host(`grafana.singu.dev`)
-      - traefik.http.routers.grafana.entrypoints=websecure
-      - traefik.http.routers.grafana.tls=true
-      - traefik.http.services.grafana-service.loadbalancer.server.scheme=http
-      - traefik.http.services.grafana-service.loadbalancer.server.port=3000
-    restart: on-failure
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=true
+        - traefik.swarm.network=traefik
+        - traefik.http.routers.grafana.rule=Host(`grafana.singu.dev`)
+        - traefik.http.routers.grafana.entrypoints=websecure
+        - traefik.http.routers.grafana.tls=true
+        - traefik.http.services.grafana-service.loadbalancer.server.scheme=http
+        - traefik.http.services.grafana-service.loadbalancer.server.port=3000
     networks:
       - traefik
 
