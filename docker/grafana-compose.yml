@@ -8,13 +8,19 @@ services:
       labels:
         - traefik.enable=true
         - traefik.swarm.network=traefik
-        - traefik.http.routers.grafana.rule=Host(`grafana.singu.dev`)
+        - traefik.http.routers.grafana.rule=Host(`monitoring.singu.dev`)
         - traefik.http.routers.grafana.entrypoints=websecure
         - traefik.http.routers.grafana.tls=true
         - traefik.http.services.grafana-service.loadbalancer.server.scheme=http
         - traefik.http.services.grafana-service.loadbalancer.server.port=3000
+    volumes:
+      - data:/var/lib/grafana
     networks:
       - traefik
+
+volumes:
+  data:
+    driver: local
 
 networks:
   traefik:

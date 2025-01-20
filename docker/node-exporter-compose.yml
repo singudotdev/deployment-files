@@ -1,0 +1,22 @@
+services:
+  app:
+    image: prom/node-exporter
+    volumes:
+      - /:/host:ro,rslave
+    command:
+      - "--path.rootfs=/host"
+    networks:
+      - host
+    deploy:
+      mode: global
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=false
+    ports:
+      - "9100:9100"
+
+networks:
+  host:
+    name: host
+    external: true

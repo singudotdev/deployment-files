@@ -1,6 +1,10 @@
 services:
   app:
     image: bitnami/prometheus:3.0.1
+    volumes:
+      - ./config.yml:/opt/bitnami/prometheus/conf/config.yml:ro
+    command:
+      - "--config.file=/opt/bitnami/prometheus/conf/config.yml"
     deploy:
       replicas: 1
       restart_policy:
