@@ -1,0 +1,81 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/services
+# icons found here https://github.com/walkxcode/dashboard-icons
+
+- Hypervisor:
+    - Proxmox:
+        icon: proxmox.svg
+        href: "https://singu.dev"
+        description: singu-dev
+        widget:
+          type: proxmox
+          url: "https://singu.dev"
+          username: ""
+          password: ""
+          node: proxmox
+
+- Portainer:
+    - Swarm SERVICES:
+        icon: portainer.svg
+        href: "https://singu.dev"
+        description: Services/Tools
+        widget:
+          type: portainer
+          url: "https://portainer.singu.dev"
+          env: 1
+          key: ""
+    - Swarm DEV:
+        icon: portainer.svg
+        href: "https://singu.dev"
+        description: Development
+        widget:
+          type: portainer
+          url: "https://singu.dev"
+          env: 2
+          key: ""
+    - Swarm PROD:
+        icon: portainer.svg
+        href: "https://singu.dev"
+        description: Production
+        widget:
+          type: portainer
+          url: "https://singu.dev"
+          env: 3
+          key: ""
+
+- DNS:
+    - Pi-Hole:
+        icon: pi-hole.svg
+        href: "singu.dev"
+        description: Ad-Blocking
+        widget:
+          type: pihole
+          url: "http://singu.dev"
+          key: ""
+
+- Network:
+    - Uptime Kuma:
+        icon: uptime-kuma.svg
+        href: "https://singu.dev"
+        description: Service Status
+        widget:
+          type: uptimekuma
+          url: "https://singu.dev"
+          slug: kuma
+
+- UPS:
+    - PowerMaster:
+        icon: https://cdn-icons-png.flaticon.com/512/6230/6230570.png
+        href: "http://singu.dev"
+        description: Uninterrupted Power Supply
+
+- Development Places:
+    - GitHub:
+        icon: github.svg
+        href: https://github.com/singudotdev
+        description: Singu.DEV Git
+    - DockerHub:
+        icon: docker.svg
+        href: https://hub.docker.com/u/singudotdev
+        description: Singu.DEV Docker Registry
