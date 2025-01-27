@@ -1,0 +1,9 @@
+services:
+  windows-exporter:
+    image: quay.io/prometheuscommunity/windows-exporter:latest
+    container_name: windows-exporter
+    ports:
+      - "9182:9182"
+    network_mode: "host"
+    command:
+      - '--collectors.enabled=cpu,memory,logical_disk,network,os'
