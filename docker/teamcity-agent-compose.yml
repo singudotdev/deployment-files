@@ -9,7 +9,7 @@ services:
     restart: always
     environment:
       SERVER_URL: "https://teamcity.singu.dev"
-      AGENT_NAME: "AIPUS - Docker Agent 1"
+      AGENT_NAME: "Docker Agent 1"
       DOCKER_IN_DOCKER: start
     volumes:
       - "config_1:/data/teamcity_agent/conf"
