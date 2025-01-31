@@ -54,6 +54,25 @@
           url: "http://singu.dev"
           key: ""
 
+- Monitoring:
+    - Grafana:
+        icon: grafana.svg
+        href: "https://singu.dev"
+        description: Graphs
+        widget:
+          type: grafana
+          url: "https://singu.dev"
+          username: ""
+          password: ""
+
+    - Prometheus:
+        icon: prometheus.svg
+        href: "https://singu.dev"
+        description: Metrics
+        widget:
+          type: prometheus
+          url: "https://singu.dev"
+
 - Network:
     - Uptime Kuma:
         icon: uptime-kuma.svg
