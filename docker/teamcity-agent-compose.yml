@@ -1,5 +1,6 @@
-# keytool -importcert -file cert.pem  -keystore /opt/java/openjdk/lib/security/cacerts
-# chown <user>:<user_group> -R /opt/buildagent
+# In agent: keytool -importcert -file cert.pem  -keystore /opt/java/openjdk/lib/security/cacerts
+# In host: chown <user>:<user_group> -R /opt/buildagent
+# In agent: sudo groupmod -g <host_docker_gid> docker
 
 services:
   agent-1:
@@ -11,7 +12,7 @@ services:
       AGENT_NAME: "AIPUS - Docker Agent 1"
       DOCKER_IN_DOCKER: start
     volumes:
-      - "agent_1_config:/data/teamcity_agent/conf"
+      - "config_1:/data/teamcity_agent/conf"
       - "docker_volumes:/var/lib/docker"
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "/opt/buildagent/system:/opt/buildagent/system"
@@ -25,7 +26,7 @@ services:
       - teamcity
 
 volumes:
-  agent_1_config:
+  config_1:
     driver: local
   docker_volumes:
     driver: local
