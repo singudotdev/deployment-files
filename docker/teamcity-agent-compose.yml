@@ -1,24 +1,31 @@
-# /opt/java/openjdk/bin/keytool -importcert -file /certs/cert.pem  -keystore /opt/java/openjdk/lib/security/cacerts
+# keytool -importcert -file cert.pem  -keystore /opt/java/openjdk/lib/security/cacerts
+# chown <user>:<user_group> -R /opt/buildagent
 
 services:
   agent-1:
-    image: jetbrains/teamcity-agent:2024.12-linux-sudo
+    image: jetbrains/teamcity-agent:2024.12.1-linux-sudo
     container_name: teamcity-docker-agent-1
+    restart: always
     environment:
       SERVER_URL: "https://teamcity.singu.dev"
-      AGENT_NAME: "Docker Agent 1"
+      AGENT_NAME: "AIPUS - Docker Agent 1"
       DOCKER_IN_DOCKER: start
     volumes:
-      - "config_1:/data/teamcity_agent/conf"
+      - "agent_1_config:/data/teamcity_agent/conf"
       - "docker_volumes:/var/lib/docker"
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - /home/singu/certs:/certs:ro
+      - "/opt/buildagent/system:/opt/buildagent/system"
+      - "/opt/buildagent/plugins:/opt/buildagent/plugins"
+      - "/opt/buildagent/tools:/opt/buildagent/tools"
+      - "/opt/buildagent/temp:/opt/buildagent/temp"
+      - "/opt/buildagent/work:/opt/buildagent/work"
+#      - "/home/singu/certs:/certs:ro"
     privileged: true
     networks:
       - teamcity
 
 volumes:
-  config_1:
+  agent_1_config:
     driver: local
   docker_volumes:
     driver: local
