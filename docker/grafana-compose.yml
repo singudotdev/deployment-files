@@ -8,7 +8,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.swarm.network=traefik
-        - traefik.http.routers.grafana.rule=Host(`monitoring.singu.dev`)
+        - traefik.http.routers.grafana.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.grafana.entrypoints=websecure
         - traefik.http.routers.grafana.tls=true
         - traefik.http.services.grafana-service.loadbalancer.server.scheme=http

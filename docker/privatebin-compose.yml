@@ -8,7 +8,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.swarm.network=traefik
-        - traefik.http.routers.privatebin.rule=Host(`paste.singu.dev`)
+        - traefik.http.routers.privatebin.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.privatebin.entrypoints=websecure
         - traefik.http.routers.privatebin.tls=true
         - traefik.http.services.privatebin-service.loadbalancer.server.scheme=https

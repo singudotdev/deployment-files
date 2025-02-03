@@ -8,7 +8,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.swarm.network=traefik
-        - traefik.http.routers.homarr.rule=Host(`home.singu.dev`)
+        - traefik.http.routers.homarr.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.homarr.entrypoints=websecure
         - traefik.http.routers.homarr.tls=true
         - traefik.http.services.homarr-service.loadbalancer.server.scheme=https

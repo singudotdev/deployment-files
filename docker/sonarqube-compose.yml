@@ -8,7 +8,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.swarm.network=traefik
-        - traefik.http.routers.sonarqube.rule=Host(`sonarqube.singu.dev`)
+        - traefik.http.routers.sonarqube.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.sonarqube.entrypoints=websecure
         - traefik.http.routers.sonarqube.tls=true
         - traefik.http.services.sonarqube-service.loadbalancer.server.scheme=http

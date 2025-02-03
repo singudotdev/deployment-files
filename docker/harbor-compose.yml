@@ -267,7 +267,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.swarm.network=traefik
-        - traefik.http.routers.harbor.rule=Host(`registry.singu.dev`)
+        - traefik.http.routers.harbor.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.harbor.entrypoints=websecure
         - traefik.http.routers.harbor.tls=true
         - traefik.http.services.harbor-service.loadbalancer.server.scheme=https

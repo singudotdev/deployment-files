@@ -8,7 +8,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.swarm.network=traefik
-        - traefik.http.routers.web-singu.rule=Host(`track.singu.dev`)
+        - traefik.http.routers.web-singu.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.web-singu.entrypoints=websecure
         - traefik.http.routers.web-singu.tls=true
         - traefik.http.services.web-singu-service.loadbalancer.server.scheme=http

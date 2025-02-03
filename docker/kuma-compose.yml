@@ -11,7 +11,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.swarm.network=traefik
-        - traefik.http.routers.kuma.rule=Host(`uptime.singu.dev`)
+        - traefik.http.routers.kuma.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.kuma.entrypoints=websecure
         - traefik.http.routers.kuma.tls=true
         - traefik.http.services.kuma-service.loadbalancer.server.scheme=http

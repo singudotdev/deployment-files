@@ -11,7 +11,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.swarm.network=traefik
-        - traefik.http.routers.homepage.rule=Host(`home.singu.dev`)
+        - traefik.http.routers.homepage.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.homepage.entrypoints=websecure
         - traefik.http.routers.homepage.tls=true
         - traefik.http.services.homepage-service.loadbalancer.server.scheme=http

@@ -17,7 +17,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.swarm.network=traefik
-        - traefik.http.routers.gitlab.rule=Host(`gitlab.singu.dev`)
+        - traefik.http.routers.gitlab.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.gitlab.entrypoints=websecure
         - traefik.http.routers.gitlab.tls=true
         - traefik.http.services.gitlab-service.loadbalancer.server.scheme=https
@@ -27,7 +27,7 @@ services:
 
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'https://gitlab.singu.dev'
+        external_url 'https://subdomain.singu.dev'
         nginx['redirect_http_to_https'] = true
         nginx['ssl_certificate'] = '/etc/gitlab/ssl/ssl.crt'
         nginx['ssl_certificate_key'] = '/etc/gitlab/ssl/ssl.key'

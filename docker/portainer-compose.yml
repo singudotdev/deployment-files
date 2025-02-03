@@ -31,7 +31,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.swarm.network=traefik
-        - traefik.http.routers.portainer.rule=Host(`portainer.singu.dev`)
+        - traefik.http.routers.portainer.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.portainer.entrypoints=websecure
         - traefik.http.routers.portainer.tls=true
         - traefik.http.services.portainer-service.loadbalancer.server.scheme=https

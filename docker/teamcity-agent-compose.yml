@@ -8,7 +8,7 @@ services:
     container_name: teamcity-docker-agent-1
     restart: always
     environment:
-      SERVER_URL: "https://teamcity.singu.dev"
+      SERVER_URL: "https://subdomain.singu.dev"
       AGENT_NAME: "Docker Agent 1"
       DOCKER_IN_DOCKER: start
     volumes:
