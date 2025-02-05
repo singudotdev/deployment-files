@@ -6,4 +6,4 @@ services:
       - "9182:9182"
     network_mode: "host"
     command:
-      - '--collectors.enabled=cpu,memory,logical_disk,network,os'
+      - '--collectors.enabled=ad,adcs,adfs,cache,cpu,cpu_info,cs,container,diskdrive,dfsr,dhcp,dns,exchange,filetime,fsrmquota,hyperv,iis,license,logical_disk,logon,memory,mscluster,msmq,netframework,net,os,pagefile,performancecounter,physical_disk,printer,process,remote_fx,scheduled_task,service,smb,smbclient,smtp,system,tcp,terminal_services,textfile,thermalzone,time,udp,update,vmware'
