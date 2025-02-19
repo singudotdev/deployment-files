@@ -1,0 +1,49 @@
+# sudo docker run --rm -it \
+#  -v $(pwd)/config/certs:/usr/share/elasticsearch/config/certs \
+#  --user "$(id -u):$(id -g)" \
+#  docker.elastic.co/elasticsearch/elasticsearch:8.17.2 \
+#  bin/elasticsearch-certutil ca --out config/certs/ca.p12 --pass
+#
+# openssl pkcs12 -in config/certs/ca.p12 -clcerts -nokeys -out config/certs/ca.crt
+#
+# sudo docker run --rm -it \
+#  -v $(pwd)/config/certs:/usr/share/elasticsearch/config/certs \
+#  --user "$(id -u):$(id -g)" \
+#  docker.elastic.co/elasticsearch/elasticsearch:8.17.2 \
+#  bin/elasticsearch-certutil cert --pem \
+#  --ca config/certs/ca.p12 \
+#  --in config/certs/instances.yml --out config/certs/bundle.zip
+#
+# unzip config/certs/bundle.zip -d config/certs/
+# mv config/certs/es01/* config/certs/ && rm -rf config/certs/es01/ config/certs/bundle.zip
+
+services:
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.2
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=es-cluster
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=SuperSecurePassword123
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.key=certs/es01.key
+      - xpack.security.http.ssl.certificate=certs/es01.crt
+      - xpack.security.http.ssl.certificate_authorities=certs/ca.crt
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.key=certs/es01.key
+      - xpack.security.transport.ssl.certificate=certs/es01.crt
+      - xpack.security.transport.ssl.certificate_authorities=certs/ca.crt
+    volumes:
+      - ./elasticsearch-tls/config/certs:/usr/share/elasticsearch/config/certs
+    ports:
+      - "9200:9200"
+    networks:
+      - elastic
+    restart: always
+
+networks:
+  elastic:
+    driver: bridge
