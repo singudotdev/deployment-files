@@ -15,7 +15,7 @@
 #  --in config/certs/instances.yml --out config/certs/bundle.zip
 #
 # unzip config/certs/bundle.zip -d config/certs/
-# mv config/certs/es01/* config/certs/ && rm -rf config/certs/es01/ config/certs/bundle.zip
+# mv config/certs/es01/* config/certs/ && rm -rf config/certs/es01/ config/certs/bundle.zip && echo "Moved and deleted temp files. Everything is ready. Just run Docker Compose."
 
 services:
   es01:
@@ -46,4 +46,5 @@ services:
 
 networks:
   elastic:
+    name: elastic
     driver: bridge

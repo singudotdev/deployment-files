@@ -1,0 +1,16 @@
+services:
+  app:
+    image: docker.elastic.co/beats/filebeat:8.17.2
+    container_name: filebeat
+    ports:
+      - "5044:5044"
+    volumes:
+      - ./config.yml:/usr/share/filebeat/filebeat.yml
+      - ../elastic/elasticsearch-tls/config/certs/ca.crt:/usr/share/filebeat/config/certs/ca.crt:ro
+    restart: always
+    networks:
+      - elastic
+
+networks:
+  elastic:
+    external: true
