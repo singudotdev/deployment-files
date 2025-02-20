@@ -1,3 +1,9 @@
+# # Generate certificates for Elasticsearch. This has to be done only once and from the host machine.
+# # The following commands are for Linux. For Windows, you can use Git Bash.
+# # The commands are for Elasticsearch 8.17.2. If you are using a different version, please adjust the image tag accordingly.
+# # In the Root Path of the project, create a folder named "elasticsearch-tls/config/certs" and put the "instances.yml" file on.
+# # Run the following commands from the "elasticsearch-tls" folder of the project.
+#
 # sudo docker run --rm -it \
 #  -v $(pwd)/config/certs:/usr/share/elasticsearch/config/certs \
 #  --user "$(id -u):$(id -g)" \
@@ -15,7 +21,7 @@
 #  --in config/certs/instances.yml --out config/certs/bundle.zip
 #
 # unzip config/certs/bundle.zip -d config/certs/
-# mv config/certs/es01/* config/certs/ && rm -rf config/certs/es01/ config/certs/bundle.zip && echo "Moved and deleted temp files. Everything is ready. Just run Docker Compose."
+# mv config/certs/es01/* config/certs/ && rm -rf config/certs/es01/ config/certs/bundle.zip && echo "Moved and deleted temp files. Everything is ready. Just run Docker Compose from the Root Project Path."
 
 services:
   es01:
