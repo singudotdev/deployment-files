@@ -17,6 +17,12 @@ services:
       SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonarqube
       SONAR_JDBC_USERNAME: sonar
       SONAR_JDBC_PASSWORD: sonar
+      SONAR_MAIL_SMTP_HOST: smtp.singu.dev
+      SONAR_MAIL_SMTP_PORT: 465
+      SONAR_MAIL_SMTP_USERNAME: singu@singu.dev
+      SONAR_MAIL_SMTP_PASSWORD: StrongPassword
+      SONAR_MAIL_FROM: noreply@singu.dev
+      SONAR_MAIL_SMTP_SECURE_CONNECTION: true
     volumes:
       - data:/opt/sonarqube/data
       - logs:/opt/sonarqube/logs
