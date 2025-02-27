@@ -1,3 +1,13 @@
+# gitlab_rails['smtp_enable'] = true
+# gitlab_rails['smtp_address'] = "smtp.singu.dev"
+# gitlab_rails['smtp_port'] = 465
+# gitlab_rails['smtp_user_name'] = "singu@singu.dev"
+# gitlab_rails['smtp_password'] = "StrongPassword"
+# gitlab_rails['smtp_domain'] = "singu.dev"
+# gitlab_rails['smtp_authentication'] = "login"
+# gitlab_rails['smtp_tls'] = true
+# gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+
 services:
   app:
     image: gitlab/gitlab-ce:17.6.1-ce.0
