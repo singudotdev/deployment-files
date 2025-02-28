@@ -1,0 +1,9 @@
+services:
+  app:
+    build:
+      context: .
+    restart: always
+    ports:
+      - "67:67/tcp"
+      - "67:67/udp"
+    network_mode: host
