@@ -1,19 +1,82 @@
-tls:
-  certificates:
-    - certFile: /certs/cert.pem
-      keyFile: /certs/cert.key
-
+# Static Configuration
 global:
   checkNewVersion: false
   sendAnonymousUsage: false
 
+# Enable debug logging
+log:
+  level: "DEBUG"
+  filePath: ""  # Empty for stdout
+
+# Access logs
+accessLog: {}
+
+# API and Dashboard
+api:
+  insecure: true
+  dashboard: true
+
+# Server transport configuration
+serversTransport:
+  insecureSkipVerify: true
+
+# Entry points configuration
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+  websecure:
+    address: ":443"
+
+# Providers configuration
+providers:
+  docker:
+    exposedByDefault: false
+    endpoint: "unix:///var/run/docker.sock"
+  file:
+    filename: "/traefik-config/config.yml"
+    watch: true
+
+# TLS configuration
+tls:
+  certificates:
+    - certFile: "/certs/cert.pem"
+      keyFile: "/certs/cert.key"
+
+# Dynamic Configuration
 http:
   routers:
+    traefik-https:
+      rule: "Host(`subdomain.singu.dev`)"
+      service: "api@internal"
+      entryPoints:
+        - "websecure"
+      tls: {}
+      middlewares:
+        - "admin-auth"
+
     router:
       rule: "Host(`subdomain.singu.dev`)"
-      service: router-service
-      tls: true
-      entryPoints: websecure
+      service: "router-service"
+      tls: {}
+      entryPoints:
+        - "websecure"
+
+  middlewares:
+    admin-auth:
+      basicAuth:
+        users:
+          - "admin:$2y$05$stfJ9rdbKCrbweLKj3zeHOvS0MvOEXtmw3FBE8t5gk.aDrFY6h1A2"
+
+    https-redirect:
+      redirectScheme:
+        scheme: "https"
+        permanent: true
 
   services:
     router-service:

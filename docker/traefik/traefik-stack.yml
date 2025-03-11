@@ -2,48 +2,22 @@ services:
   app:
     image: traefik:v3.2
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     deploy:
+      replicas: 1
       restart_policy:
         condition: on-failure
-      labels:
-        - traefik.enable=true
-        - traefik.swarm.network=traefik
-        - "traefik.http.middlewares.admin-auth.basicauth.users=admin:$$2y$$05$$stfJ9rdbKCrbweLKj3zeHOvS0MvOEXtmw3FBE8t5gk.aDrFY6h1A2"
-        - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
-        - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true
-        - traefik.http.routers.traefik-http.rule=Host(`subdomain.singu.dev`)
-        - traefik.http.routers.traefik-http.entrypoints=web
-        - traefik.http.routers.traefik-http.middlewares=https-redirect
-        - traefik.http.routers.traefik-https.rule=Host(`subdomain.singu.dev`)
-        - traefik.http.routers.traefik-https.entrypoints=websecure
-        - traefik.http.routers.traefik-https.tls=true
-        - traefik.http.routers.traefik-https.service=api@internal
-        - traefik.http.routers.traefik-https.middlewares=admin-auth
-        - traefik.http.services.traefik-service.loadbalancer.server.port=8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /home/singu/certs:/certs:ro
       - /home/singu/docker/traefik/config.yml:/traefik-config/config.yml:ro
     command:
-      - --providers.docker
-      - --providers.docker.exposedbydefault=false
-      - --providers.swarm.endpoint=unix:///var/run/docker.sock
-      - --serverstransport.insecureskipverify
-      - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
-      - --providers.file.filename=/traefik-config/config.yml
-      - --accesslog
-      #- --metrics.prometheus
-      #- --tracing=true
-      - --log
-      - --log.level=DEBUG
-      - --api
+      - "--configFile=/traefik-config/config.yml"
     networks:
       - traefik
 
 networks:
   traefik:
     name: traefik
-    driver: overlay
+    driver: bridge
