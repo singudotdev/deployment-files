@@ -8,6 +8,9 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
+      placement:
+        constraints:
+          - node.role == manager
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /home/singu/certs:/certs:ro
@@ -20,4 +23,4 @@ services:
 networks:
   traefik:
     name: traefik
-    driver: bridge
+    driver: overlay

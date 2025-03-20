@@ -1,0 +1,99 @@
+services:
+  minio1:
+    image: minio/minio:latest
+    container_name: minio-node1
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.minio.rule=Host(`subdomain.singu.dev`)
+      - traefik.http.routers.minio.entrypoints=websecure
+      - traefik.http.routers.minio.tls=true
+      - traefik.http.services.minio-service.loadbalancer.server.scheme=http
+      - traefik.http.services.minio-service.loadbalancer.server.port=9001
+    volumes:
+      - data1-1:/data1
+      - data1-2:/data2
+    environment:
+      MINIO_ROOT_USER: "minio"
+      MINIO_ROOT_PASSWORD: "minio123"
+    command: server --console-address ":9001" http://minio1/data1 http://minio1/data2 http://minio2/data1 http://minio2/data2 http://minio3/data1 http://minio3/data2 http://minio4/data1 http://minio4/data2
+    networks:
+      - traefik
+
+  minio2:
+    image: minio/minio:latest
+    container_name: minio-node2
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.minio.rule=Host(`subdomain.singu.dev`)
+      - traefik.http.routers.minio.entrypoints=websecure
+      - traefik.http.routers.minio.tls=true
+      - traefik.http.services.minio-service.loadbalancer.server.scheme=http
+      - traefik.http.services.minio-service.loadbalancer.server.port=9002
+    volumes:
+      - data2-1:/data1
+      - data2-2:/data2
+    environment:
+      MINIO_ROOT_USER: "minio"
+      MINIO_ROOT_PASSWORD: "minio123"
+    command: server --console-address ":9002" http://minio1/data1 http://minio1/data2 http://minio2/data1 http://minio2/data2 http://minio3/data1 http://minio3/data2 http://minio4/data1 http://minio4/data2
+    networks:
+      - traefik
+
+  minio3:
+    image: minio/minio:latest
+    container_name: minio-node3
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.minio.rule=Host(`subdomain.singu.dev`)
+      - traefik.http.routers.minio.entrypoints=websecure
+      - traefik.http.routers.minio.tls=true
+      - traefik.http.services.minio-service.loadbalancer.server.scheme=http
+      - traefik.http.services.minio-service.loadbalancer.server.port=9003
+    volumes:
+      - data3-1:/data1
+      - data3-2:/data2
+    environment:
+      MINIO_ROOT_USER: "minio"
+      MINIO_ROOT_PASSWORD: "minio123"
+    command: server --console-address ":9003" http://minio1/data1 http://minio1/data2 http://minio2/data1 http://minio2/data2 http://minio3/data1 http://minio3/data2 http://minio4/data1 http://minio4/data2
+    networks:
+      - traefik
+
+  minio4:
+    image: minio/minio:latest
+    container_name: minio-node4
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.minio.rule=Host(`subdomain.singu.dev`)
+      - traefik.http.routers.minio.entrypoints=websecure
+      - traefik.http.routers.minio.tls=true
+      - traefik.http.services.minio-service.loadbalancer.server.scheme=http
+      - traefik.http.services.minio-service.loadbalancer.server.port=9004
+    volumes:
+      - data4-1:/data1
+      - data4-2:/data2
+    environment:
+      MINIO_ROOT_USER: "minio"
+      MINIO_ROOT_PASSWORD: "minio123"
+    command: server --console-address ":9004" http://minio1/data1 http://minio1/data2 http://minio2/data1 http://minio2/data2 http://minio3/data1 http://minio3/data2 http://minio4/data1 http://minio4/data2
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    name: traefik
+    external: true
+
+volumes:
+  data1-1:
+  data1-2:
+  data2-1:
+  data2-2:
+  data3-1:
+  data3-2:
+  data4-1:
+  data4-2:
