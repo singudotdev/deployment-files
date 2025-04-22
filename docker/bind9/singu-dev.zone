@@ -11,8 +11,10 @@ $ORIGIN singu.dev.           ; Default zone
 
                 IN  NS      ns1.singu.dev.      ; Nameserver declaration
 
-ns1             IN  A       <dns-server-ip>     ; IP address for ns1.singu.dev
+ns1             IN  A       <dns-ip>            ; IP address for ns1.singu.dev
 
-@               IN  A       <proxy-server-ip>   ; A record for singu.dev
+@               IN  A       <proxy-ip>          ; singu.dev
 
-*               IN  A       <proxy-server-ip>   ; Wildcard A record for all subdomains
+*               IN A        <proxy-ip>          ; Wildcard for all subdomains
+
+subdomain       IN A        <machine-ip>        ; Subdomain redirection
