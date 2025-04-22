@@ -44,11 +44,15 @@ services:
       - xpack.security.transport.ssl.certificate_authorities=certs/ca.crt
     volumes:
       - ./elasticsearch-tls/config/certs:/usr/share/elasticsearch/config/certs:ro
+      - data:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
     networks:
       - elastic
     restart: always
+
+volumes:
+  data:
 
 networks:
   elastic:
