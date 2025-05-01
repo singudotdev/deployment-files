@@ -78,6 +78,11 @@ http:
         scheme: "https"
         permanent: true
 
+    strip-prefixes:
+      stripPrefix:
+        prefixes:
+          - "/endpoint/"
+
   services:
     router-service:
       loadBalancer:
