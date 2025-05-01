@@ -12,7 +12,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik
-      - traefik.http.routers.os.rule=Host(`hole.singu.dev`)
+      - traefik.http.routers.os.rule=Host(`subdomain.singu.dev`)
       - traefik.http.routers.os.entrypoints=websecure
       - traefik.http.routers.os.tls=true
       - traefik.http.services.os-service.loadbalancer.server.scheme=https
