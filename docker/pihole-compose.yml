@@ -1,0 +1,32 @@
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    environment:
+      TZ: 'Europe/Madrid'
+      FTLCONF_webserver_api_password: 'password'
+      FTLCONF_dns_listeningMode: 'all'
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.os.rule=Host(`hole.singu.dev`)
+      - traefik.http.routers.os.entrypoints=websecure
+      - traefik.http.routers.os.tls=true
+      - traefik.http.services.os-service.loadbalancer.server.scheme=https
+      - traefik.http.services.os-service.loadbalancer.server.port=443
+    volumes:
+      - 'data:/etc/pihole'
+    restart: unless-stopped
+    networks:
+      - traefik
+
+volumes:
+  data:
+
+networks:
+  traefik:
+    name: traefik
+    external: true
