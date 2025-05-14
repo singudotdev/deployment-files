@@ -33,9 +33,24 @@ entryPoints:
   websecure:
     address: ":443"
 
+# Let's Encrypt Certificate Resolver
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: singu@singu.dev # DNS email
+      storage: /letsencrypt/acme.json
+      # caServer: https://acme-staging-v02.api.letsencrypt.org/directory # Develop
+      caServer: https://acme-v02.api.letsencrypt.org/directory # Production
+      dnsChallenge:
+        provider: cloudflare
+        delayBeforeCheck: 0s
+        resolvers:
+          - "1.1.1.1:53"
+          - "1.0.0.1:53"
+
 # Providers configuration
 providers:
-  docker:
+  docker: # or swarm
     exposedByDefault: false
     endpoint: "unix:///var/run/docker.sock"
   file:
@@ -54,16 +69,18 @@ http:
     traefik-https:
       rule: "Host(`subdomain.singu.dev`)"
       service: "api@internal"
+      tls:
+        certResolver: letsencrypt
       entryPoints:
         - "websecure"
-      tls: {}
       middlewares:
         - "admin-auth"
 
     router:
       rule: "Host(`subdomain.singu.dev`)"
       service: "router-service"
-      tls: {}
+      tls:
+        certResolver: letsencrypt
       entryPoints:
         - "websecure"
 
@@ -72,11 +89,6 @@ http:
       basicAuth:
         users:
           - "admin:$2y$05$stfJ9rdbKCrbweLKj3zeHOvS0MvOEXtmw3FBE8t5gk.aDrFY6h1A2"
-
-    https-redirect:
-      redirectScheme:
-        scheme: "https"
-        permanent: true
 
     strip-prefixes:
       stripPrefix:
@@ -87,4 +99,4 @@ http:
     router-service:
       loadBalancer:
         servers:
-          - url: "http://192.168.1.123:1337"
+          - url: "http://192.168.1.123:1337" # or FQD (subdomain.tpz.es)
