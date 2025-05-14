@@ -10,7 +10,7 @@ services:
         - traefik.swarm.network=traefik
         - traefik.http.routers.teamcity.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.teamcity.entrypoints=websecure
-        - traefik.http.routers.teamcity.tls=true
+        - traefik.http.routers.teamcity.tls.certResolver=letsencrypt
         - traefik.http.services.teamcity-service.loadbalancer.server.scheme=http
         - traefik.http.services.teamcity-service.loadbalancer.server.port=8111
     volumes:

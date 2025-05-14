@@ -29,7 +29,7 @@ services:
         - traefik.swarm.network=traefik
         - traefik.http.routers.gitlab.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.gitlab.entrypoints=websecure
-        - traefik.http.routers.gitlab.tls=true
+        - traefik.http.routers.gitlab.tls.certResolver=letsencrypt
         - traefik.http.services.gitlab-service.loadbalancer.server.scheme=https
         - traefik.http.services.gitlab-service.loadbalancer.server.port=443
     networks:

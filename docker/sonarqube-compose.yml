@@ -10,7 +10,7 @@ services:
         - traefik.swarm.network=traefik
         - traefik.http.routers.sonarqube.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.sonarqube.entrypoints=websecure
-        - traefik.http.routers.sonarqube.tls=true
+        - traefik.http.routers.sonarqube.tls.certResolver=letsencrypt
         - traefik.http.services.sonarqube-service.loadbalancer.server.scheme=http
         - traefik.http.services.sonarqube-service.loadbalancer.server.port=9000
     environment:

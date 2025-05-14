@@ -10,7 +10,7 @@ services:
         - traefik.swarm.network=traefik
         - traefik.http.routers.homarr.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.homarr.entrypoints=websecure
-        - traefik.http.routers.homarr.tls=true
+        - traefik.http.routers.homarr.tls.certResolver=letsencrypt
         - traefik.http.services.homarr-service.loadbalancer.server.scheme=https
         - traefik.http.services.homarr-service.loadbalancer.server.port=7575
     volumes:

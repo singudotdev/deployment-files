@@ -33,7 +33,7 @@ services:
         - traefik.swarm.network=traefik
         - traefik.http.routers.portainer.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.portainer.entrypoints=websecure
-        - traefik.http.routers.portainer.tls=true
+        - traefik.http.routers.portainer.tls.certResolver=letsencrypt
         - traefik.http.services.portainer-service.loadbalancer.server.scheme=https
         - traefik.http.services.portainer-service.loadbalancer.server.port=9443
 

@@ -10,7 +10,7 @@ services:
         - traefik.swarm.network=traefik
         - traefik.http.routers.it-tools.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.it-tools.entrypoints=websecure
-        - traefik.http.routers.it-tools.tls=true
+        - traefik.http.routers.it-tools..certResolver=letsencrypt
         - traefik.http.services.it-tools-service.loadbalancer.server.scheme=http
         - traefik.http.services.it-tools-service.loadbalancer.server.port=80
     networks:

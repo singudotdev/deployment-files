@@ -25,7 +25,7 @@ services:
         - traefik.swarm.network=traefik
         - traefik.http.routers.gitea.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.gitea.entrypoints=websecure
-        - traefik.http.routers.gitea.tls=true
+        - traefik.http.routers.gitea.tls.certResolver=letsencrypt
         - traefik.http.services.gitea-service.loadbalancer.server.scheme=http
         - traefik.http.services.gitea-service.loadbalancer.server.port=3000
     networks:

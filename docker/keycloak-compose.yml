@@ -27,7 +27,7 @@ services:
         - traefik.docker.network=traefik
         - traefik.http.routers.keycloak.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.keycloak.entrypoints=websecure
-        - traefik.http.routers.keycloak.tls=true
+        - traefik.http.routers.keycloak.tls.certResolver=letsencrypt
         - traefik.http.services.keycloak-service.loadbalancer.server.scheme=https
         - traefik.http.services.keycloak-service.loadbalancer.server.port=8443
     environment:

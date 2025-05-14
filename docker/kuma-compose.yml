@@ -13,7 +13,7 @@ services:
         - traefik.swarm.network=traefik
         - traefik.http.routers.kuma.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.kuma.entrypoints=websecure
-        - traefik.http.routers.kuma.tls=true
+        - traefik.http.routers.kuma.tls.certResolver=letsencrypt
         - traefik.http.services.kuma-service.loadbalancer.server.scheme=http
         - traefik.http.services.kuma-service.loadbalancer.server.port=3001
     networks:

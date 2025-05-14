@@ -64,7 +64,7 @@ services:
         - traefik.docker.network=traefik
         - traefik.http.routers.authentik.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.authentik.entrypoints=websecure
-        - traefik.http.routers.authentik.tls=true
+        - traefik.http.routers.authentik.tls.certResolver=letsencrypt
         - traefik.http.services.authentik-service.loadbalancer.server.scheme=https
         - traefik.http.services.authentik-service.loadbalancer.server.port=9443
     depends_on:

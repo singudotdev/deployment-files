@@ -10,7 +10,7 @@ services:
         - traefik.swarm.network=traefik
         - traefik.http.routers.grafana.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.grafana.entrypoints=websecure
-        - traefik.http.routers.grafana.tls=true
+        - traefik.http.routers.grafana.tls.certResolver=letsencrypt
         - traefik.http.services.grafana-service.loadbalancer.server.scheme=http
         - traefik.http.services.grafana-service.loadbalancer.server.port=3000
     volumes:

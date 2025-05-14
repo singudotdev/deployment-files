@@ -13,7 +13,7 @@ services:
         - traefik.swarm.network=traefik
         - traefik.http.routers.homepage.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.homepage.entrypoints=websecure
-        - traefik.http.routers.homepage.tls=true
+        - traefik.http.routers.homepage.tls.certResolver=letsencrypt
         - traefik.http.services.homepage-service.loadbalancer.server.scheme=http
         - traefik.http.services.homepage-service.loadbalancer.server.port=3000
     volumes:

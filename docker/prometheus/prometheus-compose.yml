@@ -14,7 +14,7 @@ services:
         - traefik.swarm.network=traefik
         - traefik.http.routers.prometheus.rule=Host(`subdomain.singu.dev`)
         - traefik.http.routers.prometheus.entrypoints=websecure
-        - traefik.http.routers.prometheus.tls=true
+        - traefik.http.routers.prometheus.tls.certResolver=letsencrypt
         - traefik.http.services.prometheus-service.loadbalancer.server.scheme=http
         - traefik.http.services.prometheus-service.loadbalancer.server.port=9090
     networks:

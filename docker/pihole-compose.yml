@@ -14,7 +14,7 @@ services:
       - traefik.docker.network=traefik
       - traefik.http.routers.os.rule=Host(`subdomain.singu.dev`)
       - traefik.http.routers.os.entrypoints=websecure
-      - traefik.http.routers.os.tls=true
+      - traefik.http.routers.os.tls.certResolver=letsencrypt
       - traefik.http.services.os-service.loadbalancer.server.scheme=https
       - traefik.http.services.os-service.loadbalancer.server.port=443
     volumes:
