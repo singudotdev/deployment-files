@@ -1,0 +1,23 @@
+services:
+  runner:
+    image: gitlab/gitlab-runner:v18.0.1
+    container_name: gitlab-runner
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=false
+    volumes:
+      - config:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - gitlab-runner
+
+volumes:
+  config:
+
+networks:
+  gitlab-runner:
+    name: gitlab-runner
+    driver: overlay

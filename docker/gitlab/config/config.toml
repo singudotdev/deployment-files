@@ -1,0 +1,31 @@
+concurrent = 1
+check_interval = 0
+shutdown_timeout = 0
+
+[session_server]
+  session_timeout = 1800
+
+[[runners]]
+  name = "docker-standalone-build-agent"
+  url = "https://subdomain.singu.dev"
+  id = 1
+  token = "gitlab-runner-token-changeme"
+  token_obtained_at = "token-obtained-at-date-changeme"
+  token_expires_at = "token-expires-at-date-changeme"
+  executor = "docker"
+  [runners.cache]
+    MaxUploadedArchiveSize = 0
+    [runners.cache.s3]
+    [runners.cache.gcs]
+    [runners.cache.azure]
+  [runners.docker]
+    tls_verify = true
+    image = "docker:28.2.2"
+    privileged = true
+#    disable_entrypoint_overwrite = false
+#    oom_kill_disable = false
+#    disable_cache = false
+#    shm_size = 0
+#    network_mtu = 0
+#    network_mode = "gitlab-runner"
+    volumes = ["/cache", "/certs/client"]

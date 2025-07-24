@@ -1,0 +1,76 @@
+services:
+  app:
+    image: gitlab/gitlab-ce:18.0.1-ce.0
+    container_name: gitlab
+    restart: always
+    environment:
+      GITLAB_ROOT_PASSWORD: "z5eQ5Sd621ATXMUkH26jznRFvATBUUn3"
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://gitlab.singu.dev'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+        gitlab_rails['gitlab_ssh_host'] = 'gitlab-ssh.singu.dev'
+        nginx['listen_https'] = false
+        nginx['listen_port'] = 80
+        nginx['redirect_http_to_https'] = false
+        letsencrypt['enable'] = false
+        # External PostgreSQL configuration
+        postgresql['enable'] = false
+        gitlab_rails['db_adapter'] = 'postgresql'
+        gitlab_rails['db_encoding'] = 'utf8'
+        gitlab_rails['db_host'] = 'postgres'
+        gitlab_rails['db_port'] = 5432
+        gitlab_rails['db_username'] = 'gitlab'
+        gitlab_rails['db_password'] = 'rhGuwTU95rJPF4hFAa1zCHCttBCGDWwS'
+        gitlab_rails['db_database'] = 'gitlab_singu'
+        # Prometheus
+        prometheus_monitoring['enable'] = false
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.gitlab.rule=Host(`gitlab.singu.dev`)
+      - traefik.http.routers.gitlab.entrypoints=websecure
+      - traefik.http.routers.gitlab.tls.certResolver=letsencrypt
+      - traefik.http.services.gitlab-service.loadbalancer.server.scheme=http
+      - traefik.http.services.gitlab-service.loadbalancer.server.port=80
+      - traefik.tcp.routers.gitlab-ssh.rule=HostSNI(`*`)
+      - traefik.tcp.routers.gitlab-ssh.entrypoints=ssh
+      - traefik.tcp.routers.gitlab-ssh.service=gitlab-ssh-service
+      - traefik.tcp.services.gitlab-ssh-service.loadbalancer.server.port=2222
+    depends_on:
+      - postgres
+    volumes:
+      - 'config:/etc/gitlab'
+      - 'logs:/var/log/gitlab'
+      - 'data:/var/opt/gitlab'
+    networks:
+      - traefik
+      - gitlab
+
+  postgres:
+    image: postgres:16
+    container_name: gitlab-db
+    restart: always
+    environment:
+      POSTGRES_DB: gitlab_singu
+      POSTGRES_USER: gitlab
+      POSTGRES_PASSWORD: rhGuwTU95rJPF4hFAa1zCHCttBCGDWwS
+    labels:
+      - traefik.enable=false
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - gitlab
+
+volumes:
+  config:
+  logs:
+  data:
+  pgdata:
+
+networks:
+  traefik:
+    name: traefik
+    external: true
+  gitlab:
+    name: gitlab
+    driver: bridge

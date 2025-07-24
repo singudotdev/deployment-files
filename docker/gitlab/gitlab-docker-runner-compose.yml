@@ -1,0 +1,19 @@
+services:
+  runner:
+    image: gitlab/gitlab-runner:v18.0.1
+    container_name: gitlab-runner
+    labels:
+      - traefik.enable=false
+    volumes:
+      - config:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - gitlab-runner
+
+volumes:
+  config:
+
+networks:
+  gitlab-runner:
+    name: gitlab-runner
+    driver: bridge

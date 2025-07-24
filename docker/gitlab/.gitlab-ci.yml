@@ -1,0 +1,18 @@
+stages:
+  - test
+
+variables:
+  DOCKER_HOST: "tcp://docker:2376"
+  DOCKER_TLS_CERTDIR: ""
+
+docker-test:
+  stage: test
+  tags:
+    - dev
+    - docker
+    - build
+  services:
+    - docker:28.2.2-dind
+  script:
+    - docker info
+    - docker run --rm hello-world

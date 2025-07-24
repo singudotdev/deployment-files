@@ -32,6 +32,8 @@ entryPoints:
           permanent: true
   websecure:
     address: ":443"
+  ssh:
+    address: ":2222"
 
 # Let's Encrypt Certificate Resolver
 certificatesResolvers:
@@ -62,6 +64,21 @@ tls:
   certificates:
     - certFile: "/certs/cert.pem"
       keyFile: "/certs/cert.key"
+
+tcp:
+  routers:
+    tcp-entry:
+      entryPoints:
+        - tcp-entry
+      rule: "HostSNI(`*`)"
+      service: tcp-service
+      tls: false
+
+  services:
+    tcp-service:
+      loadBalancer:
+        servers:
+          - address: "subdomain.singu.dev:1337"
 
 # Dynamic Configuration
 http:
@@ -94,6 +111,15 @@ http:
       stripPrefix:
         prefixes:
           - "/endpoint/"
+
+    secure-headers:
+      headers:
+        browserXSSFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        sslHost: "singu.dev"
+        stsIncludeSubdomains: true
+        stsPreload: true
 
   services:
     router-service:
