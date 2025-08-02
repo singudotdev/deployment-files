@@ -3,14 +3,17 @@ services:
     image: docker.n8n.io/n8nio/n8n
     container_name: n8n-runner-1
     restart: always
-    command: start --runner
+    entrypoint: ["/bin/sh", "-c", "/usr/local/bin/task-runner-launcher javascript;"]
     environment:
-      N8N_RUNNER: true
-      N8N_RUNNER_EXTERNAL: true
-      N8N_RUNNER_EXTERNAL_MAIN_PROCESS_URL: "https://subdomain.singu.dev/"
-      N8N_RUNNER_EXTERNAL_AUTH_TOKEN: "supersecrettoken123"
-      N8N_RUNNER_NAME: "n8n-runner-1"
-      N8N_RUNNERS_ENABLED: true
+      N8N_RUNNERS_AUTH_TOKEN: "supersecrettoken123"
+      N8N_RUNNERS_MAX_CONCURRENCY: 5
+      N8N_RUNNERS_TASK_BROKER_URI: "http://subdomain.singu.dev:5679"
+      GENERIC_TIMEZONE: "Europe/Madrid"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5680/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
       - n8n-runners
 
