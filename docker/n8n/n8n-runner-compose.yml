@@ -1,0 +1,20 @@
+services:
+  runner-1:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n-runner-1
+    restart: always
+    command: start --runner
+    environment:
+      N8N_RUNNER: true
+      N8N_RUNNER_EXTERNAL: true
+      N8N_RUNNER_EXTERNAL_MAIN_PROCESS_URL: "https://subdomain.singu.dev/"
+      N8N_RUNNER_EXTERNAL_AUTH_TOKEN: "supersecrettoken123"
+      N8N_RUNNER_NAME: "n8n-runner-1"
+      N8N_RUNNERS_ENABLED: true
+    networks:
+      - n8n-runners
+
+networks:
+  n8n-runners:
+    name: n8n-runners
+    driver: bridge
