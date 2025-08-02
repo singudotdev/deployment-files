@@ -5,18 +5,23 @@ services:
       - /:/host:ro,rslave
     command:
       - "--path.rootfs=/host"
-    networks:
-      - host
     deploy:
-      mode: global
+      replicas: 1
       restart_policy:
         condition: on-failure
       labels:
-        - traefik.enable=false
-    ports:
-      - "9100:9100"
+        - traefik.enable=true
+        - traefik.swarm.network=traefik
+        - traefik.http.routers.exporter.rule=Host(`subdomain.singu.dev`) && PathPrefix(`/exporter/metrics`)
+        - traefik.http.routers.exporter.entrypoints=websecure
+        - traefik.http.routers.exporter.tls.certResolver=letsencrypt
+        - traefik.http.routers.exporter.middlewares=strip-prefixes@file
+        - traefik.http.services.exporter-service.loadbalancer.server.scheme=http
+        - traefik.http.services.exporter-service.loadbalancer.server.port=9100
+    networks:
+      - traefik
 
 networks:
-  host:
-    name: host
+  traefik:
+    name: traefik
     external: true
