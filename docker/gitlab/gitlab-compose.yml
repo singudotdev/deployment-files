@@ -13,6 +13,7 @@ services:
         nginx['listen_port'] = 80
         nginx['redirect_http_to_https'] = false
         letsencrypt['enable'] = false
+
         # External PostgreSQL configuration
         postgresql['enable'] = false
         gitlab_rails['db_adapter'] = 'postgresql'
@@ -22,6 +23,7 @@ services:
         gitlab_rails['db_username'] = 'gitlab'
         gitlab_rails['db_password'] = 'password'
         gitlab_rails['db_database'] = 'gitlab_singu'
+
         # Prometheus
         prometheus_monitoring['enable'] = false
     labels:
@@ -39,9 +41,9 @@ services:
     depends_on:
       - postgres
     volumes:
-      - "config:/etc/gitlab"
-      - "logs:/var/log/gitlab"
-      - "data:/var/opt/gitlab"
+      - config:/etc/gitlab
+      - logs:/var/log/gitlab
+      - data:/var/opt/gitlab
     networks:
       - traefik
       - gitlab
