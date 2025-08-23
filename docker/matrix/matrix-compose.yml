@@ -1,4 +1,7 @@
+# Make sure to set the correct permissions for synapse_data directory:
 # In Host: sudo chown -R 991:991 synapse_data/
+# 
+# To create an admin/normal user, use the following command:
 # In Host to create user: sudo docker exec -it synapse register_new_matrix_user -c /data/homeserver.yaml https://subdomain.singu.dev
 
 services:
@@ -41,6 +44,23 @@ services:
       - traefik.http.services.element-service.loadbalancer.server.port=80
     volumes:
       - ./config.json:/app/config.json
+
+  wellknown:
+    container_name: wellknown
+    image: nginx:alpine
+    restart: always
+    networks:
+      - traefik
+    volumes:
+      - ./well-known:/usr/share/nginx/html/.well-known:ro
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.wellknown.rule=Host(`subdomain.singu.dev`) && PathPrefix(`/.well-known/`)
+      - traefik.http.routers.wellknown.entrypoints=websecure
+      - traefik.http.routers.wellknown.tls.certresolver=letsencrypt
+      - traefik.http.routers.wellknown.service=wellknown-service
+      - traefik.http.services.wellknown-service.loadbalancer.server.port=80
 
 volumes:
   synapse_data:
