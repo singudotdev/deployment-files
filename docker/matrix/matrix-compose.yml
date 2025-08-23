@@ -1,0 +1,51 @@
+# In Host: sudo chown -R 991:991 synapse_data/
+# In Host to create user: sudo docker exec -it synapse register_new_matrix_user -c /data/homeserver.yaml https://subdomain.singu.dev
+
+services:
+  synapse:
+    container_name: synapse
+    image: matrixdotorg/synapse:latest
+    restart: always
+    environment:
+      SYNAPSE_SERVER_NAME: subdomain.singu.dev
+      SYNAPSE_REPORT_STATS: "no"
+      SYNAPSE_ENABLE_METRICS: "yes"
+      SYNAPSE_NO_TLS: "true"
+    volumes:
+      - ./synapse_data:/data
+      - ./synapse_data/homeserver.yaml:/data/homeserver.yaml:ro
+    networks:
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.matrix.rule=Host(`subdomain.singu.dev`)
+      - traefik.http.routers.matrix.entrypoints=websecure
+      - traefik.http.routers.matrix.tls.certresolver=letsencrypt
+      - traefik.http.routers.matrix.service=matrix-service
+      - traefik.http.services.matrix-service.loadbalancer.server.port=8008
+
+  element:
+    container_name: element
+    image: ghcr.io/element-hq/element-web:v1.11.109
+    restart: always
+    networks:
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.element.rule=Host(`subdomain.singu.dev`)
+      - traefik.http.routers.element.entrypoints=websecure
+      - traefik.http.routers.element.tls.certresolver=letsencrypt
+      - traefik.http.routers.element.service=element-service
+      - traefik.http.services.element-service.loadbalancer.server.port=80
+    volumes:
+      - ./config.json:/app/config.json
+
+volumes:
+  synapse_data:
+
+networks:
+  traefik:
+    name: traefik
+    external: true

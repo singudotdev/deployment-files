@@ -1,0 +1,85 @@
+# Matrix Synapse homeserver configuration for subdomain.singu.dev
+
+server_name: "subdomain.singu.dev"
+pid_file: "/data/homeserver.pid"
+web_client: false
+
+listeners:
+  - port: 8008
+    type: http
+    tls: false
+    bind_addresses: ["::", "0.0.0.0"]
+    resources:
+      - names: [client, federation]
+
+# Data storage
+database:
+  name: sqlite3
+  args:
+    database: /data/homeserver.db
+
+# User registration and authentication
+enable_registration: false
+enable_registration_without_verification: false
+registrations_require_3pid: []
+enable_registration_captcha: false
+allow_guest_access: false
+
+# Administrative users (add your admin user here after creation)
+#admins:
+#  - "@admin:subdomain.singu.dev"
+
+# Email notifications (optional, configure if needed)
+# email:
+#   smtp_host: "localhost"
+#   smtp_port: 25
+#   notif_from: "YourFriendlyHomeServer <noreply@subdomain.singu.dev>"
+
+# Disable presence (optional, saves resources)
+presence:
+  enabled: false
+
+# Reporting stats (disabled)
+report_stats: false
+
+# Metrics enabled for Prometheus
+enable_metrics: true
+
+# TLS is handled by reverse proxy (Traefik), so no TLS here
+tls_certificate_path: ""
+tls_private_key_path: ""
+
+# Media storage path
+media_store_path: "/data/media_store"
+
+# Logging config (optional, see Synapse docs for custom logging)
+# log_config: "/data/log.config"
+
+# Retention policy (optional)
+retention:
+  enabled: false
+  # default_policy:
+  #   max_lifetime: 7776000000  # 90 days in ms
+
+# Registration shared secret (for admin CLI/API to create users)
+registration_shared_secret: "secret_key_here"
+
+# TURN server config (for voice/video calls, optional)
+# turn_uris: []
+# turn_shared_secret: ""
+# turn_user_lifetime: 86400000
+
+# Federation (enabled by default)
+federation_domain_whitelist: null
+
+# Appservice integration (optional)
+app_service_config_files: []
+# Uncomment for experimental MSCs (optional)
+# experimental_features:
+#   msc3882: true
+
+# Uncomment for custom room directory servers
+# room_directory:
+#   enabled: true
+#   servers:
+#     - subdomain.singu.dev

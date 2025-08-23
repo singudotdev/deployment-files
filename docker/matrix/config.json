@@ -1,0 +1,19 @@
+{
+  "default_server_config": {
+    "m.homeserver": {
+      "base_url": "https://subdomain.singu.dev",
+      "server_name": "subdomain.singu.dev"
+    }
+  },
+  "disable_custom_urls": true,
+  "disable_guests": true,
+  "disable_login_language_selector": false,
+  "brand": "Singu.DEV",
+  "default_theme": "dark",
+  "roomDirectory": {
+    "servers": ["subdomain.singu.dev"]
+  },
+  "disable_3pid_login": false,
+  "disable_login_forgot_password": false,
+  "disable_login_registration": true
+}
