@@ -2,15 +2,16 @@
 
 services:
   dns:
-    image: ubuntu/bind9:latest
+    image: internetsystemsconsortium/bind9:9.20
     container_name: bind9
-    restart: unless-stopped
-    environment:
-      - TZ=Spain/Madrid
-      - BIND9_USER=root
+    restart: always
+    entrypoint: []
+    command:
+      ["/usr/sbin/named", "-u", "root", "-g", "-c", "/etc/bind/named.conf"]
     ports:
       - "53:53/tcp"
       - "53:53/udp"
+      - "127.0.0.1:953:953/tcp"
     volumes:
       - ./config:/etc/bind
       - ./cache:/var/cache/bind
